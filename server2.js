@@ -1,5 +1,6 @@
 import { createServer } from 'http';
 const PORT = process.env.PORT;
+
 const users = [
   { id: 1, name: 'Ashiq' },
   { id: 2, name: 'Chester' },
@@ -56,6 +57,7 @@ const createUserHandler = (req, res) => {
     users.push(newUser);
     res.statusCode = 201;
     res.write(JSON.stringify(newUser));
+    res.end();
   });
 };
 
@@ -76,12 +78,12 @@ const server = createServer((req, res) => {
         req.url.match(/\/api\/users\/([0-9]+)/) && req.method === 'GET'
       ) {
         getUserByIdHandler(req, res);
-      } else if (req.url === '/api/users' && req.method ==='POST') {
+      } else if (req.url === '/api/users' && req.method === 'POST') {
         createUserHandler(req, res);
       } else {
         notFoundHandler(req, res);
       }
-    })
+    });
   });
 
 });
